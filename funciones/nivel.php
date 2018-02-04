@@ -1,5 +1,7 @@
 <?
-require 'conex.php';
+if(!class_exists('Database\Conex')){
+	require 'conex.php';	
+}
 
 class Niveles{
 	private $enlace;
@@ -8,7 +10,7 @@ class Niveles{
 
 	public function __CONSTRUCT()
 	{
-		$this->enlace = new Conex();
+		$this->enlace = new Database\Conex();
 		$this->fecha = date("Y-m-d H:i:s");
 	}
 

@@ -1,4 +1,8 @@
 <?
+namespace Database;
+if(!isset($_SESSION['id'])){
+	session_start();	
+}
 
 class Conex {
   // The database connection
@@ -9,7 +13,7 @@ class Conex {
     if(!isset(self::$conex)) {
       
 			mysqli_report(MYSQLI_REPORT_STRICT);
-      self::$conex = new mysqli("localhost","root","", "upel");
+      self::$conex = new \mysqli("localhost","root","", "upel");
     }
 
     if(self::$conex === false) {
@@ -41,4 +45,5 @@ class Conex {
     }
 }
 
+require_once 'autoload.php';
 ?>

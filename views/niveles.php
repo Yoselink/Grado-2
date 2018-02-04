@@ -1,6 +1,6 @@
 <?
  require_once 'funciones/nivel.php';
-	$niveles = new Niveles(); 
+	$niveles = new \Funciones\Niveles(); 
 ?>
 <section class="content-header">
   <h1> Niveles </h1>

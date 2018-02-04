@@ -1,5 +1,9 @@
 <?
-require_once "conex.php";
+namespace Funciones;
+
+if(!class_exists('Database\Conex')){
+	require 'conex.php';	
+}
 
 class Funciones{
 	private $enlace;
@@ -7,7 +11,7 @@ class Funciones{
 
 	public function __CONSTRUCT()
 	{
-		$this->enlace = new Conex();
+		$this->enlace = new \Database\Conex();
 	}
 
 	public function login($email,$pass)
@@ -20,8 +24,7 @@ class Funciones{
 		if($response->num_rows>0){
 			$user = $response->fetch_array(MYSQLI_ASSOC);
 			if(password_verify($pass,$user['password']) ) {
-				session_start();
-				$_SESSION['id']   = $user['id_user'];
+				$_SESSION['id']    = $user['id_user'];
 				$_SESSION['email'] = $user['email'];
 				$_SESSION['nivel'] = $user['nivel'];
 

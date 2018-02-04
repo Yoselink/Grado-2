@@ -1,5 +1,9 @@
 <?
-require 'conex.php';
+namespace Funciones;
+
+if(!class_exists('\Database\Conex')){
+	require 'conex.php';	
+}
 
 class Usuarios{
 	private $enlace;
@@ -8,7 +12,7 @@ class Usuarios{
 
 	public function __CONSTRUCT()
 	{
-		$this->enlace = new Conex();
+		$this->enlace = new \Database\Conex();
 		$this->fecha = date("Y-m-d H:i:s");
 	}
 

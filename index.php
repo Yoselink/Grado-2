@@ -12,14 +12,12 @@ if(isset($_SESSION['id_user'])){
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.5 -->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="includes/css/bootstrap.min.css">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="css/font-awesome.css">
+    <link rel="stylesheet" href="includes/css/font-awesome.css">
    
     <!-- Theme style -->
-    <link rel="stylesheet" href="css/AdminLTE.min.css">
-    <!-- iCheck -->
-    <link rel="stylesheet" href="css/blue.css">
+    <link rel="stylesheet" href="includes/css/AdminLTE.min.css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -71,19 +69,10 @@ if(isset($_SESSION['id_user'])){
     </div><!-- /.login-box -->
 
     <!-- jQuery 2.1.4 -->
-    <script src="js/jQuery-2.1.4.min.js"></script>
+    <script src="includes/js/jQuery-2.1.4.min.js"></script>
     <!-- Bootstrap 3.3.5 -->
-    <script src="js/bootstrap.min.js"></script>
-    <!-- iCheck -->
-    <script src="js/icheck.min.js"></script>
+    <script src="includes/js/bootstrap.min.js"></script>
     <script>
-      $(function () {
-        $('input').iCheck({
-          checkboxClass: 'icheckbox_square-blue',
-          radioClass: 'iradio_square-blue',
-          increaseArea: '20%' // optional
-        });
-      });
 
       $(document).ready(function(){
         $('#login-form').submit(function(e){
@@ -99,7 +88,6 @@ if(isset($_SESSION['id_user'])){
             data: $('#login-form').serialize(),
             dataType: 'json',
             success: function(r){
-              console.log(r);
               if(r.r){
                 $('.alert').removeClass('alert-danger').addClass('alert-success');
                 window.location.replace('inicio.php');

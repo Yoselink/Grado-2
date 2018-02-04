@@ -1,6 +1,6 @@
 <?
 	require_once 'funciones/usuarios.php';
-	$usuarios = new Usuarios();
+	$usuarios = new \Funciones\Usuarios();
 ?>
 <section class="content-header">
   <h1> Usuarios </h1>
@@ -26,9 +26,6 @@
 	              </li>
 	              <li class="list-group-item">
 	                <b>Nivel</b> <span class="pull-right"><?=$user->nivel?></span>
-	              </li>
-	              <li class="list-group-item">
-	                <b>Division</b> <span class="pull-right"><?=$user->division_id?></span>
 	              </li>
 	            </ul>
 	          </div>
@@ -163,7 +160,7 @@
 			          <th>Nombres</th>
 			          <th>Apellidos</th>
 			          <th>Email</th>
-			         <!-- <th>Division</th> -->
+			         	<th>Accion</th>
 			        </tr>
 			      </thead>
 			      <tbody>
