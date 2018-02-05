@@ -1,4 +1,6 @@
 <?
+namespace Funciones;
+
 if(!class_exists('Database\Conex')){
 	require 'conex.php';	
 }
@@ -10,7 +12,7 @@ class Niveles{
 
 	public function __CONSTRUCT()
 	{
-		$this->enlace = new Database\Conex();
+		$this->enlace = new \Database\Conex();
 		$this->fecha = date("Y-m-d H:i:s");
 	}
 
@@ -139,7 +141,7 @@ class Niveles{
 
 }//Class Usuarios
 
-$modelNiveles = new Niveles();
+$modelNiveles = new \Funciones\Niveles();
 
 if(isset($_POST['action'])):
   switch ($_POST['action']):

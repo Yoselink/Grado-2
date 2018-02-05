@@ -42,25 +42,11 @@ class Usuarios{
     return $data;
 	}//consulta
 
-	public function consultaDivision()
-	{
-
-    $query = $this->enlace->query("SELECT * FROM divisiones");
-    $data = array();
-
-    while($row = $query->fetch_array()){
-    	$data[] = (object)$row;
-    }
-
-    return $data;
-	}//consulta
-
-	
 
 	public function obtener($id)
 	{
 
-    $query = $this->enlace->prepare("SELECT * FROM user WHERE id_user = ?");
+    $query = $this->enlace->prepare("SELECT * FROM user WHERE id_user = ? LIMIT 1");
 		$query->bind_param("i",$id);
 		$query->execute();
 		$response = $query->get_result();
@@ -77,7 +63,7 @@ class Usuarios{
 	public function niveles($id)
 	{
 
-    	$query = $this->enlace->prepare("SELECT * FROM user WHERE id_user = ?");
+  	$query = $this->enlace->prepare("SELECT * FROM user WHERE id_user = ?");
 		$query->bind_param("i",$id);
 		$query->execute();
 		$response = $query->get_result();
@@ -91,7 +77,7 @@ class Usuarios{
     return $data;
 	}//obtener
 
-	public function add($nombre,$apellido,$cedula,$nivel,$division,$email,$pass)
+	public function add($nombre,$apellido,$cedula,$nivel,$email,$pass)
 	{
 		$query = $this->enlace->prepare("SELECT email FROM user WHERE email = ? LIMIT 1");
 		$query->bind_param("s",$email);
@@ -109,9 +95,9 @@ class Usuarios{
 			if($response->num_rows>0){
 				$this->return = array("r"=>false,"msj"=>"Cedula ya registrada!");
 			}else{
-		  	$query = $this->enlace->prepare("INSERT INTO user (email,nombre,apellido,cedula,nivel,division_id,password,fecha_reg)
-											VALUES(?,?,?,?,?,?,?,?)");
-		  	$query->bind_param("ssssiiss",$email,$nombre,$apellido,$cedula,$nivel,$division,$pass,$this->fecha);
+		  	$query = $this->enlace->prepare("INSERT INTO user (email,nombre,apellido,cedula,nivel,password,fecha_reg)
+											VALUES(?,?,?,?,?,?,?)");
+		  	$query->bind_param("ssssiss",$email,$nombre,$apellido,$cedula,$nivel,$pass,$this->fecha);
 
 		  	if($query->execute()){
 					$this->return = array("r"=>true,"msj"=>"Usuario registrado con exito!");
@@ -125,7 +111,7 @@ class Usuarios{
 		
 	}//add
 
-	public function edit($id,$nombre,$apellido,$cedula,$nivel,$division,$email)
+	public function edit($id,$nombre,$apellido,$cedula,$nivel,$email)
 	{
 		$query = $this->enlace->prepare("SELECT email FROM user WHERE email = ? AND id_user != ? LIMIT 1");
 		$query->bind_param("si",$email,$id);
@@ -148,11 +134,10 @@ class Usuarios{
 																						nombre      = ?,
 																						apellido    = ?,
 																						cedula      = ?,
-																						nivel       = ?,
-																						division_id = ?
+																						nivel       = ?
 																					WHERE id_user = ? LIMIT 1");
 
-		  	$query->bind_param("ssssssi",$email,$nombre,$apellido,$cedula,$nivel,$division,$id);
+		  	$query->bind_param("sssssi",$email,$nombre,$apellido,$cedula,$nivel,$id);
 
 		  	if($query->execute()){
 					$this->return = array("r"=>"mod","msj"=>"Cambios guardados con exito!","reload"=>true,"redirect"=>"?ver=usuarios&opc=ver&id=".$id);
@@ -168,7 +153,7 @@ class Usuarios{
 
 }//Class Usuarios
 
-$modelUser = new Usuarios();
+$modelUser = new \Funciones\Usuarios();
 
 if(isset($_POST['action'])):
   switch ($_POST['action']):
@@ -177,11 +162,10 @@ if(isset($_POST['action'])):
 			$apellido = ucwords(strtolower($_POST["apellido"]));
 			$cedula   = $_POST["cedula"];
 			$nivel    = $_POST["nivel"];
-			$division = $_POST["division"];
 			$email     = ucfirst(strtolower($_POST["email"]));
 			$pass      = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
-			$modelUser->add($nombre,$apellido,$cedula,$nivel,$division,$email,$pass);
+			$modelUser->add($nombre,$apellido,$cedula,$nivel,$email,$pass);
 		break;
 
 		case 'edit':
@@ -190,10 +174,9 @@ if(isset($_POST['action'])):
 			$apellido = ucwords(strtolower($_POST["apellido"]));
 			$cedula   = $_POST["cedula"];
 			$nivel    = $_POST["nivel"];
-			$division = $_POST["division"];
 			$email     = ucfirst(strtolower($_POST["email"]));
 			
-			$modelUser->edit($id,$nombre,$apellido,$cedula,$nivel,$division,$email);
+			$modelUser->edit($id,$nombre,$apellido,$cedula,$nivel,$email);
 		break;
 	endswitch;
 endif;

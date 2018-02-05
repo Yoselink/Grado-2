@@ -95,20 +95,6 @@
 									</div>
 								</div>
 
-								<div class="form-group">
-									<label for="division" class="col-md-4 control-label">Divisiones: *</label>
-									<div class="col-md-5">
-										<select id="division" class="form-control" type="text" name="division" value="<?=($id>0)?$user->division_id:''?>" required>
-
-											<?php $divisiones = $usuarios->consultaDivision();?>
-											<option value="">Seleccione...</option>
-											<?php foreach ($divisiones as $div) { ?>
-												
-											<option value="<?=$div->id_division?>" <?if($id>0){ if($user->division==$div->id_division){echo 'selected';}}?>><?=$div->nombre?> </option>
-										<?php } ?>
-										</select>
-									</div>
-								</div>
 								<?if($id===0){?>
 								<div class="form-group">
 									<label for="password" class="col-md-4 control-label">Contraseña: *</label>

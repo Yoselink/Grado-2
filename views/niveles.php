@@ -1,5 +1,5 @@
 <?
- require_once 'funciones/nivel.php';
+ require_once 'funciones/niveles.php';
 	$niveles = new \Funciones\Niveles(); 
 ?>
 <section class="content-header">
@@ -27,9 +27,6 @@
 	              <li class="list-group-item">
 	                <b>Nivel</b> <span class="pull-right"><?=$user->nivel?></span>
 	              </li>
-	              <li class="list-group-item">
-	                <b>Division</b> <span class="pull-right"><?=$user->division_id?></span>
-	              </li>
 	            </ul>
 	          </div>
 	          <!-- /.box-body -->
@@ -51,7 +48,7 @@
 						</div>
 
 						<div class="box-body">
-							<form id="registro" class="form-horizontal" action="funciones/nivel.php" method="POST">
+							<form id="registro" class="form-horizontal" action="funciones/niveles.php" method="POST">
 								<input type="hidden" name="action" value="<?=($id>0)?'edit':'add'?>">
 								<?
 								if($id>0){ ?>
