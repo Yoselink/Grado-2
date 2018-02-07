@@ -30,6 +30,37 @@ class Salidas{
     return $data;
 	}//consulta
 
+	public function selectByType($type)
+	{
+    $query = $this->enlace->query("SELECT s.*,u.id_user,u.nombre,u.apellido
+																							FROM salidas AS s
+																							INNER JOIN user AS u ON u.id_user = s.id_user
+																							WHERE tipo = {$type}");
+    $data = [];
+
+    while($row = $query->fetch_array()){
+    	$data[] = (object)$row;
+    }
+
+    return $data;
+	}//consulta
+
+	public function countByType($type)
+	{
+		$query = $this->enlace->prepare("SELECT COUNT(id_salida) AS salidas,SUM(cantidad) AS cantidad FROM salidas WHERE tipo = ?");
+		$query->bind_param('i',$type);
+		$query->execute();
+		$response = $query->get_result();
+
+    if($response->num_rows>0){
+			$data = (object) $response->fetch_array(MYSQLI_ASSOC);
+		}else{
+			$data = NULL;
+		}
+
+		return $data;
+	}
+
 	public function obtener($id) 
 	{
     $query = $this->enlace->prepare("SELECT s.*,u.id_user,u.nombre,u.apellido,u.cedula,u.email
@@ -78,19 +109,19 @@ class Salidas{
 		if($response->num_rows > 0){
 			$item = (object) $response->fetch_array(MYSQLI_ASSOC);
 
-			if( ($item->cantidad - $cantidad) > 0 ){
+			if( ($item->cantidad - $cantidad) >= 0 ){
 
 				$actualiza = $this->actualizarInventario($producto,$cantidad);
 
 				if($actualiza){
-					$query = $this->enlace->prepare("INSERT INTO salidas (id_user,id_producto,contenido,cantidad)
-																													VALUES(?,?,?,?)");
+					$query = $this->enlace->prepare("INSERT INTO salidas (id_user,id_producto,tipo,contenido,cantidad)
+																													VALUES(?,?,?,?,?)");
 
 					$contenido = "<b>Producto:</b> {$item->nombre_producto}<br>";
 					$contenido .= "<b>Descripcion:</b> {$item->descripcion}<br>";
 					$contenido .= "<b>Modelo:</b> {$item->modelo}";
 
-			  	$query->bind_param("iisi",$this->user,$producto,$contenido,$cantidad);
+			  	$query->bind_param("iiisi",$this->user,$producto,$item->tipo,$contenido,$cantidad);
 
 			  	if($query->execute()){
 						$this->return = array('r'=>true,'msj'=>'Salida registrada con exito!','reload'=>true,'redirect'=>'?ver=salidas&opc=ver&id='.$query->insert_id);

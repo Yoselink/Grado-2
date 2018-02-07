@@ -1,5 +1,5 @@
 <?
-session_start();
+require_once 'funciones/conex.php';
 if(isset($_GET['ver'])){ $ver = $_GET['ver']; }else{ $ver = ""; }
 if(isset($_GET['opc'])){ $opc = $_GET['opc']; }else{ $opc = ""; }
 if(isset($_GET['id'])){ $id = $_GET['id']; }else{ $id = 0; }

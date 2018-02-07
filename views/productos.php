@@ -1,5 +1,4 @@
 <?
-	require_once 'funciones/productos.php';
 	$productos = new \Funciones\productos(); 
 ?>
 <section class="content-header">
@@ -27,6 +26,9 @@
             </li>
             <li class="list-group-item">
               <b>Descripcion:</b> <span class="pull-right"><?=$producto->descripcion?></span>
+            </li>
+            <li class="list-group-item">
+              <b>Tipo</b> <span class="pull-right"><?=$producto->tipo?'Ganchos':'Gomas'?></span>
             </li>
             <li class="list-group-item">
               <b>Modelo</b> <span class="pull-right"><?=$producto->modelo?></span>
@@ -111,6 +113,17 @@
 								</div>
 
 								<div class="form-group">
+									<label for="tipo" class="col-md-4 control-label">Tipo: *</label>
+									<div class="col-md-5">
+										<select id="tipo" class="form-control" name="tipo" required>
+											<option value="">Seleccione...</option>
+											<option value="0" <?=($id>0)?($producto->tipo == 0)?'selected':'':''?>>Gomas</option>
+											<option value="1" <?=($id>0)?($producto->tipo == 1)?'selected':'':''?>>Ganchos</option>
+										</select>
+									</div>
+								</div>
+
+								<div class="form-group">
 									<label for="descripcion" class="col-md-4 control-label">Descripcion: *</label>
 									<div class="col-md-5">
 										<input id="descripcion" class="form-control" type="text" name="descripcion" value="<?=($id>0)?$producto->descripcion:'' ?>" required>
@@ -156,52 +169,85 @@
 	<?
 		break;
 		default:
-		$mat = $productos->consulta();
+		$producto = $productos->consulta();
+		$gomas    = $productos->selectByType(0);
+		$ganchos  = $productos->selectByType(1);
 	?>
-		  <div class="box box-default color-palette-box">
-		    <div class="box-header with-border">
-		      <h3 class="box-title"><i class="fa fa-cubes"></i>Productos registrados</h3>
-		      <div class="pull-right">
-            <a class="btn btn-flat btn-sm btn-success" href="?ver=productos&opc=add"><i class="fa fa-cubes" aria-hidden="true"></i> Agregar producto</a>
-          </div>
-		    </div>
-			
-			<!--Tabla inicio-->
-		    <div class="box-body">
-			    <table class="table table-striped table-bordered">
-			      <thead>
-			        <tr>
-			          <th class="text-center">#</th>
-			          <th>Nombre</th>
-			          <th>Descripcion</th>
-			          <th>Modelo</th>
-			          <th>Cantidad</th>
-			          <th>Accion</th>
-			        </tr>
-			      </thead>
-			      <tbody>
-						<? $i = 1;
-							foreach ($mat as $d) {
-						?>
-							<tr>
-								<td class="text-center"><?=$i?></td>
-								<td><?=$d->nombre_producto?></td>
-								<td><?=$d->descripcion?></td>
-								<td><?=$d->modelo?></td>
-								<td><?=$d->cantidad?></td>
-								<td class="text-center">
-									<a class="btn btn-flat btn-primary btn-sm" href="?ver=productos&opc=ver&id=<?=$d->id_producto?>"><i class="fa fa-search"></i></a>
-									<a class="btn btn-flat btn-success btn-sm" href="?ver=productos&opc=edit&id=<?=$d->id_producto?>"><i class="fa fa-pencil"></i></a>
-								</td>
-							</tr>
-						<?
-							$i++;
-							}
-						?>        
-			      </tbody>
-			    </table>
-			   </div>
-		  </div>
+			<div class="row">
+	      <div class="col-md-3 col-sm-6 col-xs-12">
+	        <div class="info-box">
+	          <span class="info-box-icon bg-green"><i class="fa fa-cubes"></i></span>
+	          <div class="info-box-content">
+	            <div class="description-block border-right">
+	              <h5 class="description-header"><?=$gomas?></h5>
+	              <span class="description-text">GOMAS</span>
+	            </div>
+	          </div><!-- /.info-box-content -->
+	        </div><!-- /.info-box -->
+	      </div>
+
+
+	      <div class="col-md-3 col-sm-6 col-xs-12">
+	        <div class="info-box">
+	          <span class="info-box-icon bg-green"><i class="fa fa-cubes"></i></span>
+	          <div class="info-box-content">
+	            <div class="description-block border-right">
+	              <h5 class="description-header"><?=$ganchos?></h5>
+	              <span class="description-text">GANCHOS</span>
+	            </div>
+	          </div><!-- /.info-box-content -->
+	        </div><!-- /.info-box -->
+	      </div>
+
+				<div class="col-md-12">
+				  <div class="box box-default color-palette-box">
+				    <div class="box-header with-border">
+				      <h3 class="box-title"><i class="fa fa-cubes"></i>Productos registrados</h3>
+				      <div class="pull-right">
+		            <a class="btn btn-flat btn-sm btn-success" href="?ver=productos&opc=add"><i class="fa fa-cubes" aria-hidden="true"></i> Agregar producto</a>
+		          </div>
+				    </div>
+					
+					<!--Tabla inicio-->
+				    <div class="box-body">
+					    <table class="table table-striped table-bordered">
+					      <thead>
+					        <tr>
+					          <th class="text-center">#</th>
+					          <th>Nombre</th>
+					          <th>Tipo</th>
+					          <th>Descripcion</th>
+					          <th>Modelo</th>
+					          <th>Cantidad</th>
+					          <th>Accion</th>
+					        </tr>
+					      </thead>
+					      <tbody>
+								<? $i = 1;
+									foreach ($producto as $d) {
+								?>
+									<tr>
+										<td class="text-center"><?=$i?></td>
+										<td><?=$d->nombre_producto?></td>
+										<td><?=$d->tipo?'Ganchos':'Gomas'?></td>
+										<td><?=$d->descripcion?></td>
+										<td><?=$d->modelo?></td>
+										<td><?=$d->cantidad?></td>
+										<td class="text-center">
+											<a class="btn btn-flat btn-primary btn-sm" href="?ver=productos&opc=ver&id=<?=$d->id_producto?>"><i class="fa fa-search"></i></a>
+											<a class="btn btn-flat btn-success btn-sm" href="?ver=productos&opc=edit&id=<?=$d->id_producto?>"><i class="fa fa-pencil"></i></a>
+										</td>
+									</tr>
+								<?
+									$i++;
+									}
+								?>        
+					      </tbody>
+					    </table>
+					  </div>
+				  </div>
+				</div>
+			</div>
 		  
 	<?
 		break;

@@ -1,5 +1,4 @@
 <?
- require_once 'funciones/salidas.php';
 	$salidas = new \Funciones\Salidas(); 
 ?>
 <section class="content-header">
@@ -28,7 +27,7 @@
             <li class="list-group-item">
               <?=$salida->contenido?>
               <br>
-              <b>Cantidad</b> <?=$salida->cantidad?>
+              <b>Cantidad:</b> <?=$salida->cantidad?>
             </li>
           </ul>
         </div>
@@ -103,51 +102,82 @@
 	<?
 		break;
 		default:
-		$mat = $salidas->consulta();
+		$salida  = $salidas->consulta();
+		$gomas   = $salidas->countByType(0);
+		$ganchos = $salidas->countByType(1);
 	?>
-		  <div class="box box-default color-palette-box">
-		    <div class="box-header with-border">
-		      <h3 class="box-title"><i class="fa fa-list"></i> Salidas registrados</h3>
-		      <div class="pull-right">
-            <a class="btn btn-flat btn-sm btn-success" href="?ver=salidas&opc=add"><i class="fa fa-cubes" aria-hidden="true"></i> Agregar salida</a>
-          </div>
-		    </div>
-			
-				<!--Tabla inicio-->
-		    <div class="box-body">
-			    <table class="table table-striped table-bordered">
-			      <thead>
-			        <tr>
-			          <th class="text-center">#</th>
-			          <th>Usuario</th>
-			          <th>Cantidad</th>
-			          <th>Fecha</th>
-			          <th>Accion</th>
-			        </tr>
-			      </thead>
-			      <tbody>
-						<? $i = 1;
-							foreach ($mat as $d) {
-						?>
-							<tr>
-								<td class="text-center"><?=$i?></td>
-								<td><a href="?ver=usuarios&opc=ver&id=<?=$d->id_user?>" title="Ver usuario"><?="{$d->nombre} {$d->apellido}"?></a></td>
-								<td><?=$d->cantidad?></td>
-								<td><?=$d->registrado?></td>
-								<td class="text-center">
-									<a class="btn btn-flat btn-primary btn-sm" href="?ver=salidas&opc=ver&id=<?=$d->id_salida?>"><i class="fa fa-search"></i></a>
-									<a class="btn btn-flat btn-danger btn-sm" href="reportes/salidas.php?action=salida&id=<?=$d->id_salida?>"><i class="fa fa-print"></i></a>
-								</td>
-							</tr>
-						<?
-							$i++;
-							}
-						?>        
-			      </tbody>
-			    </table>
-			   </div>
-		  </div>
-		  
+			<div class="row">
+	      <div class="col-md-3 col-sm-6 col-xs-12">
+	        <div class="info-box">
+	          <span class="info-box-icon bg-green"><i class="fa fa-list"></i></span>
+	          <div class="info-box-content">
+	            <div class="description-block border-right">
+	              <h5 class="description-header"><?=$gomas->salidas?></h5>
+	              <span class="description-text">GOMAS <br> <small><a href="reportes/salidas.php?action=gomas">Imprimir PDF</a></small></span>
+	            </div>
+	          </div><!-- /.info-box-content -->
+	        </div><!-- /.info-box -->
+	      </div>
+
+	      <div class="col-md-3 col-sm-6 col-xs-12">
+	        <div class="info-box">
+	          <span class="info-box-icon bg-green"><i class="fa fa-list"></i></span>
+	          <div class="info-box-content">
+	            <div class="description-block border-right">
+	              <h5 class="description-header"><?=$ganchos->salidas?></h5>
+	              <span class="description-text">GANCHOS<br> <small><a href="reportes/salidas.php?action=ganchos">Imprimir PDF</a></small> </span>
+	            </div>
+	          </div><!-- /.info-box-content -->
+	        </div><!-- /.info-box -->
+	      </div>
+
+	      <div class="col-md-12">
+				  <div class="box box-default color-palette-box">
+				    <div class="box-header with-border">
+				      <h3 class="box-title"><i class="fa fa-list"></i> Salidas registrados</h3>
+				      <div class="pull-right">
+		            <a class="btn btn-flat btn-sm btn-success" href="?ver=salidas&opc=add"><i class="fa fa-list" aria-hidden="true"></i> Agregar salida</a>
+		          </div>
+				    </div>
+					
+						<!--Tabla inicio-->
+				    <div class="box-body">
+					    <table class="table table-striped table-bordered">
+					      <thead>
+					        <tr>
+					          <th class="text-center">#</th>
+					          <th>Usuario</th>
+					          <th>Tipo</th>
+					          <th>Cantidad</th>
+					          <th>Fecha</th>
+					          <th>Accion</th>
+					        </tr>
+					      </thead>
+					      <tbody>
+								<? $i = 1;
+									foreach ($salida as $d) {
+								?>
+									<tr>
+										<td class="text-center"><?=$i?></td>
+										<td><a href="?ver=usuarios&opc=ver&id=<?=$d->id_user?>" title="Ver usuario"><?="{$d->nombre} {$d->apellido}"?></a></td>
+										<td><?=$d->tipo?'Ganchos':'Gomas'?></td>
+										<td><?=$d->cantidad?></td>
+										<td><?=$d->registrado?></td>
+										<td class="text-center">
+											<a class="btn btn-flat btn-primary btn-sm" href="?ver=salidas&opc=ver&id=<?=$d->id_salida?>"><i class="fa fa-search"></i></a>
+											<a class="btn btn-flat btn-danger btn-sm" href="reportes/salidas.php?action=salida&id=<?=$d->id_salida?>"><i class="fa fa-print"></i></a>
+										</td>
+									</tr>
+								<?
+									$i++;
+									}
+								?>        
+					      </tbody>
+					    </table>
+					  </div>
+				  </div>s
+				</div>
+			</div>
 	<?
 		break;
 	}

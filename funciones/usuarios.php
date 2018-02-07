@@ -19,7 +19,7 @@ class Usuarios{
 	public function consulta()
 	{
 
-    $query = $this->enlace->query("SELECT * FROM user");
+    $query = $this->enlace->query("SELECT u.*,n.nombre_nivel FROM user AS u INNER JOIN nivel AS n ON n.id_nivel = u.nivel");
     $data = array();
 
     while($row = $query->fetch_array()){
@@ -46,7 +46,7 @@ class Usuarios{
 	public function obtener($id)
 	{
 
-    $query = $this->enlace->prepare("SELECT * FROM user WHERE id_user = ? LIMIT 1");
+    $query = $this->enlace->prepare("SELECT u.*,n.nombre_nivel FROM user AS u INNER JOIN nivel AS n ON n.id_nivel = u.nivel WHERE id_user = ? LIMIT 1");
 		$query->bind_param("i",$id);
 		$query->execute();
 		$response = $query->get_result();

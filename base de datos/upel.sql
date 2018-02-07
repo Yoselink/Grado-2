@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 04, 2018 at 08:57 PM
+-- Generation Time: Feb 07, 2018 at 03:45 PM
 -- Server version: 10.1.29-MariaDB
 -- PHP Version: 7.2.0
 
@@ -55,6 +55,7 @@ INSERT INTO `nivel` (`id_nivel`, `nombre_nivel`, `descripcion`) VALUES
 CREATE TABLE `productos` (
   `id_producto` int(11) UNSIGNED NOT NULL,
   `nombre_producto` varchar(50) CHARACTER SET latin1 NOT NULL,
+  `tipo` tinyint(1) UNSIGNED NOT NULL COMMENT '1 = Ganchos | 0 = Gomas',
   `descripcion` text CHARACTER SET latin1 NOT NULL,
   `modelo` varchar(30) COLLATE utf8_spanish_ci NOT NULL,
   `cantidad` mediumint(5) NOT NULL,
@@ -65,9 +66,10 @@ CREATE TABLE `productos` (
 -- Dumping data for table `productos`
 --
 
-INSERT INTO `productos` (`id_producto`, `nombre_producto`, `descripcion`, `modelo`, `cantidad`, `registrado`) VALUES
-(1, 'Nombre2', 'Descripcione2', 'Modelo2', 7, '2018-02-04 16:36:20'),
-(2, 'Nuevo', 'des', 'mod', 12, '2018-02-04 19:47:09');
+INSERT INTO `productos` (`id_producto`, `nombre_producto`, `tipo`, `descripcion`, `modelo`, `cantidad`, `registrado`) VALUES
+(1, 'Nombre', 0, 'Descripcion', 'Modelo', 7, '2018-02-04 16:36:20'),
+(4, 'Gancho', 1, 'Descripcion', 'De ropa', 0, '2018-02-07 14:24:46'),
+(5, 'otro gancho', 1, 'Cualquiera', 'De carne', 4, '2018-02-07 14:29:47');
 
 -- --------------------------------------------------------
 
@@ -79,6 +81,7 @@ CREATE TABLE `salidas` (
   `id_salida` int(11) UNSIGNED NOT NULL,
   `id_user` int(11) UNSIGNED NOT NULL,
   `id_producto` int(11) UNSIGNED NOT NULL,
+  `tipo` tinyint(1) UNSIGNED NOT NULL COMMENT '1 = Ganchos | 0 = Gomas',
   `contenido` varchar(150) COLLATE utf8_spanish_ci NOT NULL COMMENT 'Nombre, descripcion y modelo del producto',
   `cantidad` mediumint(5) UNSIGNED NOT NULL,
   `registrado` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
@@ -88,8 +91,10 @@ CREATE TABLE `salidas` (
 -- Dumping data for table `salidas`
 --
 
-INSERT INTO `salidas` (`id_salida`, `id_user`, `id_producto`, `contenido`, `cantidad`, `registrado`) VALUES
-(3, 10, 1, '<b>Producto:</b> Nombre2<br><b>Descripcion:</b> Descripcione2<br><b>Modelo:</b> Modelo2', 3, '2018-02-04 19:49:31');
+INSERT INTO `salidas` (`id_salida`, `id_user`, `id_producto`, `tipo`, `contenido`, `cantidad`, `registrado`) VALUES
+(3, 10, 1, 0, '<b>Producto:</b> Nombre2<br><b>Descripcion:</b> Descripcion<br><b>Modelo:</b> Modelo', 3, '2018-02-04 19:49:31'),
+(4, 10, 4, 1, '<b>Producto:</b> Gancho<br><b>Descripcion:</b> Descripcion<br><b>Modelo:</b> De ropa', 15, '2018-02-07 14:26:10'),
+(5, 10, 5, 1, '<b>Producto:</b> Otro gancho<br><b>Descripcion:</b> Cualquiera<br><b>Modelo:</b> De carne', 1, '2018-02-07 14:29:59');
 
 -- --------------------------------------------------------
 
@@ -156,25 +161,25 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `nivel`
 --
 ALTER TABLE `nivel`
-  MODIFY `id_nivel` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_nivel` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `productos`
 --
 ALTER TABLE `productos`
-  MODIFY `id_producto` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_producto` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `salidas`
 --
 ALTER TABLE `salidas`
-  MODIFY `id_salida` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_salida` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

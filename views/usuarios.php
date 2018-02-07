@@ -1,5 +1,4 @@
 <?
-	require_once 'funciones/usuarios.php';
 	$usuarios = new \Funciones\Usuarios();
 ?>
 <section class="content-header">
@@ -25,7 +24,7 @@
 	                <b>Email:</b> <span class="pull-right"><?=$user->email?></span>
 	              </li>
 	              <li class="list-group-item">
-	                <b>Nivel</b> <span class="pull-right"><?=$user->nivel?></span>
+	                <b>Nivel</b> <span class="pull-right"><?=$user->nombre_nivel?></span>
 	              </li>
 	            </ul>
 	          </div>
